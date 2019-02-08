@@ -24,6 +24,7 @@ if (rsp.ok):
     jData = json.loads(rsp.content)
 
     print("Server time is {0}".format(jData['time']))
+    # parse json timestring into datetime
     result = datetime.datetime.strptime(jData['time'], '%Y-%m-%d %H:%M:%S.%f') + offset
     print("Result is {0}".format(result))
     subprocess.run(["date", "-s", str(result)])
