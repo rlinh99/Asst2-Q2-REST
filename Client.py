@@ -2,7 +2,7 @@ import requests
 import json
 import datetime
 # Replace with the correct URL
-url = "http://localhost:5000/getTime"
+url = "http://192.168.1.73:5000/getTime"
 
 # It is a good practice not to hardcode the credentials. So ask the user to enter credentials at runtime
 startTime = datetime.datetime.now()
