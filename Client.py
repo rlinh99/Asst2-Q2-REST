@@ -1,24 +1,32 @@
 import requests
 import json
 import datetime
-# Replace with the correct URL
-url = "http://192.168.1.73:5000/getTime"
+import subprocess
 
-# It is a good practice not to hardcode the credentials. So ask the user to enter credentials at runtime
+# Replace with the correct URL
+url = "http://192.168.1.73:1330/getTime"
+
+# Calculate round trip travel time
 startTime = datetime.datetime.now()
 rsp = requests.get(url)
 endTime = datetime.datetime.now()
-#print (myResponse.status_code)
+
+# Calculate round trip travel time
+rtt = endTime - startTime
+offset = rtt / 2
+print("Start sending request at {0}".format(startTime))
+print("Get the response at {0}".format(endTime))
+print("Round trip travel time is {0}".format(rtt))
+print("Offset is {0}".format(offset))
 
 # For successful API call, response code will be 200 (OK)
-if(rsp.ok):
-    # Loading the response data into a dict variable
-    # json.loads takes in only binary or string variables so using content to fetch binary content
-    # Loads (Load String) takes a Json file and converts into python data structure (dict or list, depending on JSON)
+if (rsp.ok):
     jData = json.loads(rsp.content)
 
-    print("The response contains {0} properties".format(len(jData)))
-    print(jData)
+    print("Server time is {0}".format(jData['time']))
+    result = datetime.datetime.strptime(jData['time'], '%Y-%m-%d %H:%M:%S.%f') + offset
+    print("Result is {0}".format(result))
+    subprocess.run(["date", "-s", str(result)])
 else:
-  # If response code is not ok (200), print the resulting http error code with description
+    # If response code is not ok (200), print the resulting http error code with description
     rsp.raise_for_status()

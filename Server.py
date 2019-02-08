@@ -5,13 +5,11 @@ import datetime
 app = Flask(__name__)
 api = Api(app)
 
-time = {"time": str(datetime.datetime.now())}
-
 
 class Time(Resource):
     def get(self, request):
         if request == "getTime":
-            return time["time"], 200
+            return {"time": str(datetime.datetime.now())}, 200
         return "User not found", 404
 
 
