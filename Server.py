@@ -15,4 +15,4 @@ class Time(Resource):
         return "User not found", 404
 
 
-api.add_resource(Time, "/user/<string:request>")
+api.add_resource(Time, "/<string:request>")
